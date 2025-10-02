@@ -1,9 +1,17 @@
 # Digital Attendance Tracker
 
+![Example Screenshot](example.png)
 A **minimal web app** for tracking student attendance in university courses.  
 Students can check in themselves, even if they arrive late, and the data is automatically saved to a Google Sheet. Supports multiple courses with a single webpage.
 
-![Example Screenshot](example.png)
+---
+
+## Stored Data
+
+When students submit their attendance, it is recorded in the Google Sheet:
+
+![Stored Data Screenshot](example2.png)
+
 ---
 
 ## Features
