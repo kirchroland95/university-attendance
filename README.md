@@ -63,3 +63,9 @@ When students submit their attendance, it is recorded in the Google Sheet:
 - The system does **not authenticate users**, so anyone with the link can submit.  
 - Make sure your Google Sheet tabs match the course names in the script.  
 - Optionally, you can implement authentication or validation for added security.
+
+---
+
+## Updates
+
+- 2025/10/6 Added daily attendance viewing functionality - students can now view who is present today

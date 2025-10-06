@@ -10,12 +10,38 @@ body {
   padding: 20px;
   box-sizing: border-box;
   gap: 20px;
+  position: relative;
+}
+
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  width: auto;
+  max-width: none;
+  margin: 0;
+}
+
+.back-btn:hover {
+  background-color: #5a6268;
 }
 
 h1 {
   font-size: 28px;
   margin: 0 0 20px 0;
   max-width: 90%;
+}
+
+#pageTitle {
+  margin-top: 80px;
 }
 
 input {
@@ -66,26 +92,47 @@ button:active {
     gap: 25px;
     padding: 15px;
   }
-  
+
+  .back-btn {
+    top: 15px;
+    left: 15px;
+    font-size: 18px;
+    padding: 12px 24px;
+  }
+
   h1 {
     font-size: 32px;
   }
-  
-  button {
+  #pageTitle {
+    margin-top: 90px;
+  }
+  button:not(.back-btn) {
     font-size: 24px;
     padding: 25px 20px;
     width: 100%;
   }
-  
+
   input {
     font-size: 22px;
     padding: 18px;
     width: 100%;
   }
-  
+
   .msg {
     font-size: 18px;
   }
+}
+
+.attendance-entry {
+  margin: 6px 0;
+  font-size: 18px;
+}
+
+#attendanceList {
+  max-width: 90%;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* Mobile */
@@ -94,21 +141,30 @@ button:active {
     gap: 20px;
     padding: 10px;
   }
-  
+
+  .back-btn {
+    top: 10px;
+    left: 10px;
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
   h1 {
     font-size: 28px;
   }
-  
-  button {
+  #pageTitle {
+    margin-top: 90px;
+  }
+  button:not(.back-btn) {
     font-size: 20px;
     padding: 20px 15px;
   }
-  
+
   input {
     font-size: 18px;
     padding: 15px;
   }
-  
+
   .msg {
     font-size: 16px;
   }
