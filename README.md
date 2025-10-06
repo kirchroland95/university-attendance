@@ -68,4 +68,6 @@ When students submit their attendance, it is recorded in the Google Sheet:
 
 ## Updates
 
-- 2025/10/6 Added daily attendance viewing functionality - students can now view who is present today
+####  2025/10/6
+- Added daily attendance viewing functionality - students can now view who is present today
+- Implemented modern dark theme with professional color scheme for better user experience and reduced eye strain
