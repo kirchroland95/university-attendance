@@ -71,3 +71,10 @@ When students submit their attendance, it is recorded in the Google Sheet:
 ####  2025/10/6
 - Added daily attendance viewing functionality - students can now view who is present today
 - Implemented modern dark theme with professional color scheme for better user experience and reduced eye strain
+
+####  2025/10/8
+- Restructured navigation flow with new course selection hub (materie.html)
+- Replaced daily attendance view with comprehensive tabular attendance display (prezente.html)
+- Enhanced Google Apps Script with doGet functionality for complete attendance data retrieval
+- Improved course-specific routing and back navigation throughout the application
+- Consolidated styling and removed unused components for cleaner codebase
