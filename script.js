@@ -106,7 +106,7 @@ function checkIn() {
         if (dist > allowedRadius) {
           msgElement.innerHTML =
             `ESTI LA ${Math.round(dist)}m DE UNIVERSITATE.<br>` +
-            `Precizie raportata ~ ${acc}m. Activeaza Precise/Exact location pentru browser, porneste Wi‑Fi si iesi afara daca esti in interior, apoi incearca din nou.`;
+            `Precizie raportata ~ ${acc}m. Activeaza Precise/Exact location pentru browser, porneste WiFi, repozitioneaza-te, apoi incearca din nou.`;
           return;
         }
 
