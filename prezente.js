@@ -1,38 +1,47 @@
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzGbDC9NzkUNB2ajgmAzYy3gCn_J1LTCJ2W0zx8VKUSFwg5qL-QhM0Csd87shE9R-OHfA/exec";
-
-// Determine which course to display from URL
+// Get URL parameters
 const params = new URLSearchParams(window.location.search);
-const course = params.get("course") || "1";
-const titles = {
-  1: "ALGORITMICA GRAFURILOR",
-  2: "PROGRAMARE ORIENTATĂ OBIECT",
-};
+const courseId = params.get("course") || "1";
+const type = params.get("type") || "course"; // "course" or "lab"
+const course = COURSES[courseId];
 
 document.addEventListener("DOMContentLoaded", function () {
+  if (!course) {
+    alert("Curs invalid!");
+    location.href = "index.html";
+    return;
+  }
+
   // Set course title
-  document.getElementById("courseTitle").textContent =
-    titles[course] || "Prezențe";
+  document.getElementById("courseTitle").textContent = course.name;
+  
+  // Set type title
+  const typeElement = document.getElementById("typeTitle");
+  if (typeElement) {
+    typeElement.textContent = type === "lab" ? "LABORATOR" : "CURS";
+  }
 
   // Update back button to include course parameter
   const backBtn = document.getElementById("backBtn");
   if (backBtn) {
-    backBtn.onclick = function () {
-      location.href = `materie.html?course=${course}`;
-    };
+    backBtn.onclick = () => location.href = `materie.html?course=${courseId}`;
   }
 });
 
-fetch(`${SCRIPT_URL}?course=${course}`)
-  .then((r) => r.json())
-  .then((data) => {
-    if (data.error) throw new Error(data.error);
-    renderTable(data);
-  })
-  .catch((err) => {
-    document.getElementById("tableContainer").textContent =
-      "Eroare la încărcare: " + err.message;
-  });
+// Get the script URL
+const scriptUrl = course ? course.scriptUrl : "";
+
+if (scriptUrl) {
+  fetch(`${scriptUrl}?course=${courseId}&type=${type}`)
+    .then((r) => r.json())
+    .then((data) => {
+      if (data.error) throw new Error(data.error);
+      renderTable(data);
+    })
+    .catch((err) => {
+      document.getElementById("tableContainer").textContent =
+        "Eroare la încărcare: " + err.message;
+    });
+}
 
 function renderTable(data) {
   const container = document.getElementById("tableContainer");
@@ -57,3 +66,4 @@ function renderTable(data) {
   html += "</tbody></table>";
   container.innerHTML = html;
 }
+

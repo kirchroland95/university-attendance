@@ -4,17 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alege Materia</title>
+    <title>Alege Tipul</title>
     <link rel="stylesheet" href="style.css?v=2">
+    <script src="config.js"></script>
     <script src="materie.js" defer></script>
 </head>
 
 <body>
     <button class="back-btn" onclick="location.href='index.html'">ÎNAPOI</button>
-    <h1 id="courseTitle">ALGORITMICA GRAFURILOR</h1>
-    <button id="attendanceBtn" onclick="location.href='attendance.html?course=1'">PREZENTA</button>
-    <button id="viewBtn" onclick="location.href='prezente.html?course=1'">VIZUALIZARE PREZENTE</button>
-
+    <h1 id="courseTitle">SELECTEAZĂ MATERIA</h1>
+    
+    <h2 class="section-title">CURS</h2>
+    <div class="button-group">
+        <button id="coursePrezentaBtn" class="btn-primary">MARCHEAZĂ PREZENȚA</button>
+        <button id="courseVizualizareBtn" class="btn-secondary">VIZUALIZARE PREZENȚE</button>
+    </div>
+    
+    <h2 class="section-title">LABORATOR</h2>
+    <div class="button-group">
+        <button id="labPrezentaBtn" class="btn-primary">MARCHEAZĂ PREZENȚA</button>
+        <button id="labVizualizareBtn" class="btn-secondary">VIZUALIZARE PREZENȚE</button>
+    </div>
 </body>
 
 </html>

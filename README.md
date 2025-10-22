@@ -47,6 +47,23 @@ When students submit their attendance, it is recorded in the Google Sheet:
    - You can use **GitHub Pages** or any static web host.  
    - Open `index.html` to start using the attendance form.
 
+## How to Add a New Course
+
+The steps to add a new course are very simple:
+
+### 1. Edit `config.js`
+
+Add a new object to the `COURSES` collection with the following structure:
+
+```javascript
+5: {
+   id: 5,
+   name: "COURSE NAME",
+   shortName: "ACRONYM",
+   scriptUrl: "https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec"
+}
+```
+
 ---
 
 ## Usage
@@ -78,3 +95,12 @@ When students submit their attendance, it is recorded in the Google Sheet:
 - Enhanced Google Apps Script with doGet functionality for complete attendance data retrieval
 - Improved course-specific routing and back navigation throughout the application
 - Consolidated styling and removed unused components for cleaner codebase
+
+
+####  2025/10/22
+- Reorganized project into fully modular configuration-based architecture
+- Created central `config.js` file for managing all course information in one place
+- Implemented Course/Lab separation - each course now supports both course and lab attendance tracking
+- Added segmented button groups for Course and Lab selection with visual differentiation (green/blue colors)
+- Updated Google Apps Script to handle `type` parameter for routing between course and lab sheets
+- Simplified deployment - adding new courses now only requires editing `config.js`

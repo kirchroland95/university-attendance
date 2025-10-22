@@ -1,34 +1,43 @@
 // Get course parameter from URL
 const params = new URLSearchParams(window.location.search);
-const course = params.get("course") || "1";
-
-// Course titles
-const courseTitles = {
-  1: "ALGORITMICA GRAFURILOR",
-  2: "PROGRAMARE ORIENTATĂ OBIECT",
-};
+const courseId = params.get("course") || "1";
+const course = COURSES[courseId];
 
 // Update page content based on course
 document.addEventListener("DOMContentLoaded", function () {
+  if (!course) {
+    alert("Curs invalid!");
+    location.href = "index.html";
+    return;
+  }
+
   // Update title
   const titleElement = document.getElementById("courseTitle");
   if (titleElement) {
-    titleElement.textContent = courseTitles[course] || "ALGORITMICA GRAFURILOR";
+    titleElement.textContent = course.name;
   }
 
-  // Update button hrefs
-  const attendanceBtn = document.getElementById("attendanceBtn");
-  const viewBtn = document.getElementById("viewBtn");
+  // Setup Course buttons
+  const coursePrezentaBtn = document.getElementById("coursePrezentaBtn");
+  const courseVizualizareBtn = document.getElementById("courseVizualizareBtn");
 
-  if (attendanceBtn) {
-    attendanceBtn.onclick = function () {
-      location.href = `attendance.html?course=${course}`;
-    };
+  if (coursePrezentaBtn) {
+    coursePrezentaBtn.onclick = () => location.href = `attendance.html?course=${courseId}&type=course`;
   }
 
-  if (viewBtn) {
-    viewBtn.onclick = function () {
-      location.href = `prezente.html?course=${course}`;
-    };
+  if (courseVizualizareBtn) {
+    courseVizualizareBtn.onclick = () => location.href = `prezente.html?course=${courseId}&type=course`;
+  }
+
+  // Setup Lab buttons
+  const labPrezentaBtn = document.getElementById("labPrezentaBtn");
+  const labVizualizareBtn = document.getElementById("labVizualizareBtn");
+
+  if (labPrezentaBtn) {
+    labPrezentaBtn.onclick = () => location.href = `attendance.html?course=${courseId}&type=lab`;
+  }
+
+  if (labVizualizareBtn) {
+    labVizualizareBtn.onclick = () => location.href = `prezente.html?course=${courseId}&type=lab`;
   }
 });
