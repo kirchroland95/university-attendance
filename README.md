@@ -1,6 +1,6 @@
 # Digital Attendance Tracker
 
-![Example Screenshot](example.png)
+![Example Screenshot](DOCUMENTATION/example1.png)
 
 A **minimal web app** for tracking student attendance in university courses.  
 Students can check in themselves, even if they arrive late, and the data is automatically saved to a Google Sheet. Supports multiple courses with a single webpage.
@@ -11,24 +11,54 @@ Students can check in themselves, even if they arrive late, and the data is auto
 
 When students submit their attendance, it is recorded in the Google Sheet:
 
-![Stored Data Screenshot](example2.png)
+![Stored Data Screenshot](DOCUMENTATION/example2.png)
+
+## Summary Table (dynamic)
+
+Build a live, auto-expanding matrix of students (rows) vs dates (columns) with ✓ marks for presence.
+
+Create a new sheet named `LABTABEL`, then add:
+
+- Cell `A1`: `Nume`
+- Cell `A2` (unique, sorted names):
+
+```gs
+=UNIQUE(SORT(LAB!A2:A))
+```
+
+- Cell `B1` (unique dates header):
+
+```gs
+=TRANSPOSE(UNIQUE(SORT(LAB!C2:C)))
+```
+
+- Cell `B2`:
+
+```gs
+=IF(COUNTIFS(LAB!$A:$A,$A2,LAB!$C:$C,B$1)>0,"✓","")
+```
+
+- Drag B2 formula for all the other cells that you want the checks to happen
+
 
 ---
 
 ## Features
 
-- Two-course homepage with buttons to select the class.  
-- Simple form for students to enter their name.  
-- Names are automatically converted to uppercase.  
-- Attendance is saved to a Google Sheet (one sheet per course).  
-- Lightweight and easy to deploy.
+- Config-driven homepage that lists all courses from `config.js` (add new courses without changing HTML).  
+- For each course, choose CURS/LAB and either mark attendance or view attendance in a table.  
+- One Apps Script URL per course; backend distinguishes CURS/LAB via `type=course|lab`.  
+- Geolocation-based check-in with short best-fix sampling and accuracy-aware radius (optional, configurable).  
+- Simple name form; names are auto uppercased and sanitized (supports Romanian diacritics).  
+- Full attendance viewer (dates as columns, ✓ marks per student).  
+- Responsive dark theme; lightweight static hosting (GitHub Pages friendly).
 
 ---
 
 ## Setup
 
 1. **Create a Google Sheet**  
-   - Add a sheet for each course (e.g., `GRAPH`, `OOP`).  
+   - Add a sheet for course and laboratory (e.g., `CURS`, `LAB`).  
 
 2. **Create a Google Apps Script**  
    - Go to **Extensions → Apps Script** in your spreadsheet.  
@@ -40,8 +70,9 @@ When students submit their attendance, it is recorded in the Google Sheet:
    - Copy the Web App URL.
 
 4. **Configure the frontend**  
-   - In `script.js`, replace `SCRIPT_URL` with your Web App URL.  
-   - Optional: customize course names in the `titles` object.  
+   - Open `config.js` and set `scriptUrl` for each course to your Web App URL (one URL per course handles both CURS/LAB).  
+   - Update the course `name` (and optional `shortName`) in `config.js` as you want it displayed.  
+   - Optional: adjust geolocation by setting `CAMPUS.lat`, `CAMPUS.lon` and `radiusMeters` in `config.js`.  
 
 5. **Host the frontend**  
    - You can use **GitHub Pages** or any static web host.  
@@ -56,8 +87,8 @@ The steps to add a new course are very simple:
 Add a new object to the `COURSES` collection with the following structure:
 
 ```javascript
-5: {
-   id: 5,
+6: {
+   id: 6,
    name: "COURSE NAME",
    shortName: "ACRONYM",
    scriptUrl: "https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec"
@@ -72,6 +103,7 @@ Add a new object to the `COURSES` collection with the following structure:
 2. Select the course.  
 3. Enter your name and click **PREZENT!**  
 4. Attendance is logged to the corresponding Google Sheet.
+5. Be sure to have location turned on!
 
 ---
 
