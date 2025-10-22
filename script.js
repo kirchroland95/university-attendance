@@ -43,6 +43,38 @@ function haversine(lat1, lon1, lat2, lon2) {
   return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
 }
 
+// Try to obtain the best-accuracy position within a short window
+function getBestPosition(timeoutMs = 8000, targetAccuracyM = 25) {
+  return new Promise((resolve, reject) => {
+    let best = null;
+    const watchId = navigator.geolocation.watchPosition(
+      (p) => {
+        if (!best || p.coords.accuracy < best.coords.accuracy) {
+          best = p;
+        }
+        // Stop early if we reached the target accuracy
+        if (p.coords.accuracy <= targetAccuracyM) {
+          navigator.geolocation.clearWatch(watchId);
+          resolve(best);
+        }
+      },
+      (err) => {
+        // If we captured something, use it; otherwise, reject
+        if (best) resolve(best);
+        else reject(err);
+      },
+      { enableHighAccuracy: true, maximumAge: 0 }
+    );
+
+    // Safety timer
+    setTimeout(() => {
+      navigator.geolocation.clearWatch(watchId);
+      if (best) resolve(best);
+      else reject(new Error("timeout"));
+    }, timeoutMs);
+  });
+}
+
 function checkIn() {
   const nameInput = document.getElementById("nameInput");
   const msgElement = document.getElementById("msg");
@@ -61,45 +93,43 @@ function checkIn() {
 
   msgElement.textContent = "VERIFICARE LOCATIE...";
 
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-      const dist = haversine(lat, lon, CAMPUS.lat, CAMPUS.lon);
+    // Gather best position within a short window, then decide
+    getBestPosition(8000, 25)
+      .then((pos) => {
+        const { latitude: lat, longitude: lon, accuracy } = pos.coords;
+        const dist = haversine(lat, lon, CAMPUS.lat, CAMPUS.lon);
 
-      if (dist > CAMPUS.radiusMeters) {
-        msgElement.innerHTML =
-          "ESTI LA " +
-          Math.round(dist) +
-          "M DE UNIVERSITATE<br>REPOZITIONEAZA-TE SI INCEARCA DIN NOU";
-        return;
-      }
+        // Accept if within radius considering reported accuracy (capped)
+        const acc = isFinite(accuracy) ? Math.round(accuracy) : 9999;
+        const allowedRadius = CAMPUS.radiusMeters + Math.min(acc, 100);
 
-      // Only send if inside campus area
-      msgElement.textContent = "SE ADAUGA...";
+        if (dist > allowedRadius) {
+          msgElement.innerHTML =
+            `ESTI LA ${Math.round(dist)}m DE UNIVERSITATE.<br>` +
+            `Precizie raportata ~ ${acc}m. Activeaza Precise/Exact location pentru browser, porneste Wi‑Fi si iesi afara daca esti in interior, apoi incearca din nou.`;
+          return;
+        }
 
-      const scriptUrl = course.scriptUrl;
+        // Only send if inside campus area (within accuracy margin)
+        msgElement.textContent = "SE ADAUGA...";
 
-      fetch(scriptUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `name=${encodeURIComponent(
-          name
-        )}&course=${courseId}&type=${type}`,
-      })
-        .then((res) => res.text())
-        .then((text) => {
-          // Show personalized success message with the entered name
-          msgElement.textContent = `TE-AM TRECUT PREZENT: ${name.toUpperCase()}`;
-          document.getElementById("nameInput").value = "";
+        const scriptUrl = course.scriptUrl;
+
+        fetch(scriptUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `name=${encodeURIComponent(name)}&course=${courseId}&type=${type}`,
         })
-        .catch((err) => {
-          msgElement.textContent = "EROARE, PREZENTA NU A PUTUT FI TRECUTA";
-        });
-    },
-    () => {
-      msgElement.textContent = "LOCATIE REFUZATA SAU INDISPONIBILA";
-    },
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-  );
+          .then((res) => res.text())
+          .then(() => {
+            msgElement.textContent = `TE-AM TRECUT PREZENT: ${name.toUpperCase()}`;
+            document.getElementById("nameInput").value = "";
+          })
+          .catch(() => {
+            msgElement.textContent = "EROARE, PREZENTA NU A PUTUT FI TRECUTA";
+          });
+      })
+      .catch(() => {
+        msgElement.textContent = "LOCATIE REFUZATA SAU INDISPONIBILA";
+      });
 }
