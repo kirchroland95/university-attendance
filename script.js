@@ -1,34 +1,35 @@
 // Attendance Tracker Script
 
-// Setter for attendance.html h1 title based on course parameter
-// Detect course from URL
-
-// Check for course parameter, default to "1" if not present
+// Get URL parameters
 const params = new URLSearchParams(window.location.search);
-const course = params.get("course") || "1";
+const courseId = params.get("course") || "1";
+const type = params.get("type") || "course"; // "course" or "lab"
+const course = COURSES[courseId];
 
-const titles = {
-  1: "ALGORITMICA GRAFURILOR",
-  2: "PROGRAMARE ORIENTATĂ OBIECT",
-};
-
-// Set page title if element exists, otherwise default to "PREZENȚĂ"
+// Set page title and get script URL
 window.addEventListener("DOMContentLoaded", () => {
-  const title = document.getElementById("courseTitle");
-  if (title) title.textContent = titles[course] || "PREZENȚĂ";
+  if (!course) {
+    alert("Curs invalid!");
+    location.href = "index.html";
+    return;
+  }
+
+  const titleElement = document.getElementById("courseTitle");
+  if (titleElement) {
+    titleElement.textContent = course.name;
+  }
+
+  const typeElement = document.getElementById("typeTitle");
+  if (typeElement) {
+    typeElement.textContent = type === "lab" ? "LAB" : "CURS";
+  }
 
   // Update back button to include course parameter
   const backBtn = document.getElementById("backBtn");
   if (backBtn) {
-    backBtn.onclick = function () {
-      location.href = `materie.html?course=${course}`;
-    };
+    backBtn.onclick = () => location.href = `materie.html?course=${courseId}`;
   }
 });
-
-// Google Apps Script URL
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzGbDC9NzkUNB2ajgmAzYy3gCn_J1LTCJ2W0zx8VKUSFwg5qL-QhM0Csd87shE9R-OHfA/exec";
 
 function checkIn() {
   const name = document.getElementById("nameInput").value.trim();
@@ -42,10 +43,12 @@ function checkIn() {
   // Show loading message immediately
   msgElement.textContent = "SE ADAUGA...";
 
-  fetch(SCRIPT_URL, {
+  const scriptUrl = course.scriptUrl;
+
+  fetch(scriptUrl, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: "name=" + encodeURIComponent(name) + "&course=" + course,
+    body: `name=${encodeURIComponent(name)}&course=${courseId}&type=${type}`,
   })
     .then((res) => res.text())
     .then((text) => {
@@ -57,3 +60,4 @@ function checkIn() {
       msgElement.textContent = "EROARE, PREZENTA NU A PUTUT FI TRECUTA";
     });
 }
+
