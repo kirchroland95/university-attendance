@@ -133,3 +133,33 @@ function checkIn() {
         msgElement.textContent = "LOCATIE REFUZATA SAU INDISPONIBILA";
       });
 }
+
+// Submit attendance without any geolocation checks
+function checkInNoGeo() {
+  const nameInput = document.getElementById("nameInput");
+  const msgElement = document.getElementById("msg");
+  const name = nameInput.value.trim();
+
+  if (!name) {
+    msgElement.textContent = "INTRODU NUMELE";
+    return;
+  }
+
+  msgElement.textContent = "SE ADAUGA...";
+
+  const scriptUrl = course.scriptUrl;
+
+  fetch(scriptUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `name=${encodeURIComponent(name)}&course=${courseId}&type=${type}`,
+  })
+    .then((res) => res.text())
+    .then(() => {
+      msgElement.textContent = `TE-AM TRECUT PREZENT: ${name.toUpperCase()}`;
+      nameInput.value = "";
+    })
+    .catch(() => {
+      msgElement.textContent = "EROARE, PREZENTA NU A PUTUT FI TRECUTA";
+    });
+}
