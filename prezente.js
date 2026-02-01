@@ -52,7 +52,7 @@ function renderTable(data) {
 
   // Build HTML table
   let html = "<table><thead><tr><th>Nume</th>";
-  data.dates.forEach((date) => (html += `<th>${date}</th>`));
+  data.dates.forEach((date) => (html += `<th class="date-header"><span>${date}</span></th>`));
   html += "</tr></thead><tbody>";
 
   data.data.forEach((row) => {

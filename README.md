@@ -142,3 +142,5 @@ Add a new object to the `COURSES` collection with the following structure:
 - Implemented name matching from STUDENTS list in config.js to reduce attendance data mismatches
 - Added ENABLE_AUTOCOMPLETE toggle in config.js for easy enable/disable without app changes
 - Student names are alphabetically sorted and filtered in real-time as users type
+- Implemented vertical date headers on prezente.html to maximize screen space for attendance checkmarks
+- Date headers now display vertically (rotated 90 degrees) instead of horizontally to reduce horizontal scrolling
