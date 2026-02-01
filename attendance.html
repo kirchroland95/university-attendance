@@ -15,7 +15,10 @@
   <h1 id="courseTitle"></h1>
   <h2 id="typeTitle"></h2>
 
-  <input id="nameInput" type="text" placeholder="NUME PRENUME" />
+  <div class="autocomplete-container">
+    <input id="nameInput" type="text" placeholder="NUME PRENUME" />
+    <ul id="suggestionsList" class="suggestions-list"></ul>
+  </div>
   <button onclick="checkIn()">PREZENT!</button>
   <div class="msg" id="msg"></div>
 

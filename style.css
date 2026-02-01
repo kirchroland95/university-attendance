@@ -64,7 +64,7 @@ input {
   text-transform: uppercase;
   text-align: center;
   width: 300px;
-  max-width: 90%;
+  max-width: 100%;
   border: 2px solid #555;
   border-radius: 8px;
   box-sizing: border-box;
@@ -181,7 +181,7 @@ button:active {
   button:not(.back-btn) {
     font-size: 24px;
     padding: 25px 20px;
-    width: 100%;
+    width: 300px;
   }
 
   input {
@@ -261,6 +261,7 @@ button:active {
   button:not(.back-btn) {
     font-size: 20px;
     padding: 20px 15px;
+    width: 300px;
   }
 
   input {
@@ -272,3 +273,51 @@ button:active {
     font-size: 16px;
   }
 }
+
+/* Autocomplete styles */
+.autocomplete-container {
+  position: relative;
+  display: inline-block;
+  width: 300px;
+  max-width: 90%;
+}
+
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  list-style: none;
+  margin: 5px 0 0 0;
+  padding: 0;
+  border: 2px solid #555;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  background-color: #2d2d2d;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+  z-index: 1000;
+}
+
+.suggestion-item {
+  padding: 12px 15px;
+  cursor: pointer;
+  text-align: left;
+  color: #ffffff;
+  border-bottom: 1px solid #444;
+  transition: background-color 0.2s ease;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background-color: #3d3d3d;
+}
+
+.suggestion-item:active {
+  background-color: #4d4d4d;
+}
+

@@ -6,8 +6,67 @@ const courseId = params.get("course") || "1";
 const type = params.get("type") || "course"; // "course" or "lab"
 const course = COURSES[courseId];
 
+// Get list of student names from STUDENTS array
+function getStudentNames() {
+  return STUDENTS;
+}
+
+// Autocomplete
+function setupAutocomplete() {
+  // Check if autocomplete is enabled in config
+  if (!ENABLE_AUTOCOMPLETE) return;
+  
+  const nameInput = document.getElementById('nameInput');
+  const suggestionsList = document.getElementById('suggestionsList');
+  
+  if (!nameInput || !suggestionsList) return;
+  
+  nameInput.addEventListener('input', function() {
+    const input = this.value.trim().toUpperCase();
+    suggestionsList.innerHTML = '';
+    
+    if (input.length === 0) {
+      suggestionsList.style.display = 'none';
+      return;
+    }
+    
+    const students = getStudentNames();
+    const matches = students.filter(name => 
+      name.toUpperCase().includes(input)
+    ).slice(0, 8); // Limit suggestions
+    
+    if (matches.length === 0) {
+      suggestionsList.style.display = 'none';
+      return;
+    }
+    
+    matches.forEach(match => {
+      const li = document.createElement('li');
+      li.textContent = match;
+      li.className = 'suggestion-item';
+      li.onclick = function() {
+        nameInput.value = match;
+        suggestionsList.innerHTML = '';
+        suggestionsList.style.display = 'none';
+      };
+      suggestionsList.appendChild(li);
+    });
+    
+    suggestionsList.style.display = 'block';
+  });
+  
+  // Close suggestions when clicking outside
+  document.addEventListener('click', function(event) {
+    if (event.target !== nameInput && event.target !== suggestionsList) {
+      suggestionsList.innerHTML = '';
+      suggestionsList.style.display = 'none';
+    }
+  });
+}
+
 // Set page title and get script URL
 window.addEventListener("DOMContentLoaded", () => {
+  setupAutocomplete();
   if (!course) {
     alert("Curs invalid!");
     location.href = "index.html";
