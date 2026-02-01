@@ -61,6 +61,19 @@ th {
   color: white;
 }
 
+.date-header {
+  padding: 6px 4px;
+  vertical-align: bottom;
+}
+
+.date-header span {
+  display: inline-block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
 tr:nth-child(even) {
   background-color: #333333;
 }
