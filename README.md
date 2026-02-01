@@ -136,3 +136,9 @@ Add a new object to the `COURSES` collection with the following structure:
 - Added segmented button groups for Course and Lab selection with visual differentiation (green/blue colors)
 - Updated Google Apps Script to handle `type` parameter for routing between course and lab sheets
 - Simplified deployment - adding new courses now only requires editing `config.js`
+
+####  2026/02/01
+- Added student name autocomplete functionality with searchable dropdown suggestions
+- Implemented name matching from STUDENTS list in config.js to reduce attendance data mismatches
+- Added ENABLE_AUTOCOMPLETE toggle in config.js for easy enable/disable without app changes
+- Student names are alphabetically sorted and filtered in real-time as users type
