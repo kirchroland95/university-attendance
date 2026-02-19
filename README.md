@@ -13,6 +13,45 @@ When students submit their attendance, it is recorded in the Google Sheet:
 
 ![Stored Data Screenshot](DOCUMENTATION/example2.png)
 
+
+
+## Features
+
+- Config-driven homepage that lists all courses from `config.js` (add new courses without changing HTML).  
+- For each course, choose CURS/LAB and either mark attendance or view attendance in a table.  
+- One Apps Script URL per course; backend distinguishes CURS/LAB via `type=course|lab`.  
+- Geolocation-based check-in with short best-fix sampling and accuracy-aware radius (optional, configurable).  
+- Simple name form; names are auto uppercased and sanitized (supports Romanian diacritics).  
+- Full attendance viewer (dates as columns, ✓ marks per student).  
+- Responsive dark theme; lightweight static hosting (GitHub Pages friendly).
+
+---
+
+## Setup
+
+1. **Create a Google Sheet**  
+   - Add a sheet for course and laboratory (e.g., `CURS`, `LAB`).  
+
+2. **Create a Google Apps Script**  
+   - Go to **Extensions → Apps Script** in your spreadsheet.  
+   - Copy the `Code.gs` script (doPost) into the script editor.  
+
+3. **Deploy the Web App**  
+   - Click **Deploy → New Deployment → Web App**.  
+   - Select **“Anyone” can access”**.  
+   - Copy the Web App URL.
+
+4. **Configure the frontend**  
+   - Open `config.js` and set `scriptUrl` for each course to your Web App URL (one URL per course handles both CURS/LAB).  
+   - Update the course `name` (and optional `shortName`) in `config.js` as you want it displayed.  
+   - Optional: adjust geolocation by setting `CAMPUS.lat`, `CAMPUS.lon` and `radiusMeters` in `config.js`.  
+   - Optional: enable autocomplete by setting `ENABLE_AUTOCOMPLETE` to true and adding a list of names in the `STUDENTS` array
+
+5. **Host the frontend**  
+   - You can use **GitHub Pages** or any static web host.  
+   - Open `index.html` to start using the attendance form.
+
+---
 ## Summary Table (dynamic)
 
 Build a live, auto-expanding matrix of students (rows) vs dates (columns) with ✓ marks for presence.
@@ -68,41 +107,6 @@ If you have multiple tables, you can create an `ALL` table and use this formula 
 This will merge the two tables into one
 
 ---
-
-## Features
-
-- Config-driven homepage that lists all courses from `config.js` (add new courses without changing HTML).  
-- For each course, choose CURS/LAB and either mark attendance or view attendance in a table.  
-- One Apps Script URL per course; backend distinguishes CURS/LAB via `type=course|lab`.  
-- Geolocation-based check-in with short best-fix sampling and accuracy-aware radius (optional, configurable).  
-- Simple name form; names are auto uppercased and sanitized (supports Romanian diacritics).  
-- Full attendance viewer (dates as columns, ✓ marks per student).  
-- Responsive dark theme; lightweight static hosting (GitHub Pages friendly).
-
----
-
-## Setup
-
-1. **Create a Google Sheet**  
-   - Add a sheet for course and laboratory (e.g., `CURS`, `LAB`).  
-
-2. **Create a Google Apps Script**  
-   - Go to **Extensions → Apps Script** in your spreadsheet.  
-   - Copy the `Code.gs` script (doPost) into the script editor.  
-
-3. **Deploy the Web App**  
-   - Click **Deploy → New Deployment → Web App**.  
-   - Select **“Anyone” can access”**.  
-   - Copy the Web App URL.
-
-4. **Configure the frontend**  
-   - Open `config.js` and set `scriptUrl` for each course to your Web App URL (one URL per course handles both CURS/LAB).  
-   - Update the course `name` (and optional `shortName`) in `config.js` as you want it displayed.  
-   - Optional: adjust geolocation by setting `CAMPUS.lat`, `CAMPUS.lon` and `radiusMeters` in `config.js`.  
-
-5. **Host the frontend**  
-   - You can use **GitHub Pages** or any static web host.  
-   - Open `index.html` to start using the attendance form.
 
 ## How to Add a New Course
 
