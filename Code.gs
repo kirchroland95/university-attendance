@@ -58,8 +58,10 @@ function doGet(e) {
       const name = String(r[0] || "").trim();
       const ts = r[1] instanceof Date ? r[1] : new Date(r[1]);
       const dateCell = r[2];
-      const dateOnly = dateCell
-        ? Utilities.formatDate(new Date(dateCell), timeZone, "yyyy/MM/dd")
+      // Strip trailing letter (e.g., "L" or "C") before parsing
+      const cleanDateCell = typeof dateCell === "string" ? dateCell.replace(/[a-zA-Z]$/, "") : dateCell;
+      const dateOnly = cleanDateCell
+        ? Utilities.formatDate(new Date(cleanDateCell), timeZone, "yyyy/MM/dd")
         : Utilities.formatDate(ts, timeZone, "yyyy/MM/dd");
       return { name, ts, dateOnly };
     })
