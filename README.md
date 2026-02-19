@@ -40,6 +40,32 @@ Create a new sheet named `LABTABEL`, then add:
 
 - Drag B2 formula for all the other cells that you want the checks to happen
 
+If you have multiple tables, you can create an `ALL` table and use this formula in cell `A1`:
+```gs
+=LET(
+  rempty, 1, 
+  namesC, CURSTABEL!A2:A, 
+  namesL, LABTABEL!A2:A,
+  datesC, CURSTABEL!B1:1, 
+  datesL, LABTABEL!B1:1,
+  
+  uNames, SORT(UNIQUE(TOCOL(VSTACK(namesC, namesL), rempty))),
+  uDates, TRANSPOSE(SORT(UNIQUE(TOCOL(VSTACK(TRANSPOSE(datesC), TRANSPOSE(datesL)), rempty)))),
+  
+  populate, MAKEARRAY(ROWS(uNames), COLUMNS(uDates), LAMBDA(r, c, 
+    LET(
+      curName, INDEX(uNames, r),
+      curDate, INDEX(uDates, c),
+      checkLec, IFERROR(INDEX(CURSTABEL!A:Z, MATCH(curName, CURSTABEL!A:A, 0), MATCH(curDate, CURSTABEL!1:1, 0)), ""),
+      checkLab, IFERROR(INDEX(LABTABEL!A:Z, MATCH(curName, LABTABEL!A:A, 0), MATCH(curDate, LABTABEL!1:1, 0)), ""),
+      IF(checkLec<>"", checkLec, checkLab)
+    )
+  )),
+  
+  VSTACK(HSTACK("NAME", uDates), HSTACK(uNames, populate))
+)
+```
+This will merge the two tables into one
 
 ---
 

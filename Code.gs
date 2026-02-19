@@ -16,17 +16,17 @@ function doPost(e) {
   let upperName = rawName.toUpperCase();
 
   // Remove all unwanted characters (only letters, spaces, dashes, apostrophes)
-  upperName = upperName.replace(/[^A-ZĂÂÎȘȚ \-']/g, "");
+  upperName = upperName.replace(/[^A-ZĂÂÎȘȚÁÉÍÓÖŐÚÜŰ \-']/g, "");
 
   // Enforce first character must be a letter
-  upperName = upperName.replace(/^[^A-ZĂÂÎȘȚ]+/, "");
+  upperName = upperName.replace(/^[^A-ZĂÂÎȘȚÁÉÍÓÖŐÚÜŰ]+/, "");
 
   // Current date and time
   const now = new Date();
   const timeZone = "Europe/Bucharest";
   const dateOnly = Utilities.formatDate(now, timeZone, "yyyy/MM/dd");
 
-  sheet.appendRow([upperName, now, dateOnly]);
+  sheet.appendRow([upperName, now, dateOnly + (type === "lab" ? "L" : "C")]);
 
   return ContentService.createTextOutput(
     "TE-AM TRECUT PREZENT: " + upperName
