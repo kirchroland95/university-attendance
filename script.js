@@ -11,6 +11,18 @@ function getStudentNames() {
   return STUDENTS;
 }
 
+// Returns the canonical student name if valid, otherwise null.
+function getValidatedStudentName(inputName) {
+  if (!ENABLE_AUTOCOMPLETE) return inputName;
+
+  const normalizedInput = inputName.trim().toUpperCase();
+  const match = getStudentNames().find(
+    (student) => student.trim().toUpperCase() === normalizedInput
+  );
+
+  return match || null;
+}
+
 // Autocomplete
 function setupAutocomplete() {
   // Check if autocomplete is enabled in config
@@ -137,12 +149,19 @@ function getBestPosition(timeoutMs = 8000, targetAccuracyM = 25) {
 function checkIn() {
   const nameInput = document.getElementById("nameInput");
   const msgElement = document.getElementById("msg");
-  const name = nameInput.value.trim();
+  let name = nameInput.value.trim();
 
   if (!name) {
     msgElement.textContent = "INTRODU NUMELE";
     return;
   }
+
+  const validatedName = getValidatedStudentName(name);
+  if (validatedName === null) {
+    msgElement.textContent = "NUME INVALID";
+    return;
+  }
+  name = validatedName;
 
   // Check if geolocation is supported
   if (!navigator.geolocation) {
@@ -197,12 +216,19 @@ function checkIn() {
 function checkInNoGeo() {
   const nameInput = document.getElementById("nameInput");
   const msgElement = document.getElementById("msg");
-  const name = nameInput.value.trim();
+  let name = nameInput.value.trim();
 
   if (!name) {
     msgElement.textContent = "INTRODU NUMELE";
     return;
   }
+
+  const validatedName = getValidatedStudentName(name);
+  if (validatedName === null) {
+    msgElement.textContent = "NUME INVALID";
+    return;
+  }
+  name = validatedName;
 
   msgElement.textContent = "SE ADAUGA...";
 
