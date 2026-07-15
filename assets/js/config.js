@@ -2,9 +2,9 @@
 const COURSES = {
   1: {
     id: 1,
-    name: "COURSE NAME 1",
+    name: "OOP",
     shortName: "ACRONYM1",
-    scriptUrl: "https://script.google.com/macros/s/YOUR_SCRIPT_URL_1/exec",
+    scriptUrl: "https://script.google.com/macros/s/AKfycbyqd4q1WmwgE7nBcFjwXdfWvMg1SDB_HzuDrT1iz7ru722kYuZo9m-tli-3sWnaA-wDhA/exec",
   },
   2: {
     id: 2,

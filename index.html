@@ -3,26 +3,12 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alege Materia</title>
-  <link rel="stylesheet" href="style.css?v=2">
-  <script src="config.js"></script>
+  <meta http-equiv="refresh" content="0; url=pages/index.html">
+  <title>Redirecting...</title>
 </head>
 
 <body>
-  <h1>ALEGE MATERIA</h1>
-  <div id="courseButtons"></div>
-
-  <script>
-    // Dynamically generate course buttons from config
-    const container = document.getElementById('courseButtons');
-    Object.values(COURSES).forEach(course => {
-      const button = document.createElement('button');
-      button.textContent = course.name;
-      button.onclick = () => location.href = `materie.html?course=${course.id}`;
-      container.appendChild(button);
-    });
-  </script>
+  <p>Redirecting to <a href="pages/index.html">pages/index.html</a>...</p>
 </body>
 
 </html>
