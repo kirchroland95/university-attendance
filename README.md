@@ -174,3 +174,6 @@ Add a new object to the `COURSES` collection with the following structure:
 - Student names are alphabetically sorted and filtered in real-time as users type
 - Implemented vertical date headers on prezente.html to maximize screen space for attendance checkmarks
 - Date headers now display vertically (rotated 90 degrees) instead of horizontally to reduce horizontal scrolling
+####  2026/07/15
+- Change margins for better page layout
+- Add ENABLE_NAME_ENFORCEMENT toggle in config.js for autocomplete name enforcement
