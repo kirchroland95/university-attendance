@@ -13,14 +13,16 @@ function getStudentNames() {
 
 // Returns the canonical student name if valid, otherwise null.
 function getValidatedStudentName(inputName) {
-  if (!ENABLE_AUTOCOMPLETE) return inputName;
+  if(ENABLE_AUTOCOMPLETE && ENABLE_NAME_ENFORCEMENT)
+    {
+      const normalizedInput = inputName.trim().toUpperCase();
+      const match = getStudentNames().find(
+        (student) => student.trim().toUpperCase() === normalizedInput
+      );
 
-  const normalizedInput = inputName.trim().toUpperCase();
-  const match = getStudentNames().find(
-    (student) => student.trim().toUpperCase() === normalizedInput
-  );
-
-  return match || null;
+      return match || null;
+    }
+    return inputName;
 }
 
 // Autocomplete

@@ -22,7 +22,10 @@ const CAMPUS = {
 };
 
 // Feature toggles
-const ENABLE_AUTOCOMPLETE = true; // Set to false to disable name autocomplete
+// Toggle name autocomplete
+const ENABLE_AUTOCOMPLETE = false; 
+// Toggle check for existing entry in STUDENTS when autocomplete is enabled
+const ENABLE_NAME_ENFORCEMENT = true; 
 
 const STUDENTS = [
   "STUDENT NAME 1",
