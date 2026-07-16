@@ -6,7 +6,7 @@ const COURSES = {
     shortName: "ACRONYM1",
     courseSchedule: { day: 1, start: "08:00" }, // optional
     labSchedule: { day: 4, start: "12:15" },    // optional
-    scriptUrl: "https://script.google.com/macros/s/AKfycbyqd4q1WmwgE7nBcFjwXdfWvMg1SDB_HzuDrT1iz7ru722kYuZo9m-tli-3sWnaA-wDhA/exec",
+    scriptUrl: "https://script.google.com/macros/s/YOUR_SCRIPT_URL_1/exec",
   },
   2: {
     id: 2,
