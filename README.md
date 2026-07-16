@@ -56,8 +56,8 @@ Example:
 const COURSES = {
    1: {
       id: 1,
-      name: "OOP",
-      shortName: "OOP",
+      name: "COURSE NAME",
+      shortName: "ACRONYM",
       courseSchedule: { day: 1, start: "08:00" }, // Monday 08:00-10:00 when DURATION = 2
       labSchedule: { day: 3, start: "14:00" },    // Wednesday 14:00-16:00 when DURATION = 2
       scriptUrl: "https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec"
