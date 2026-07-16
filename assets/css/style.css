@@ -22,6 +22,15 @@ body {
   gap: 12px;
 }
 
+#courseButtons > button.ongoing-course {
+  background-color: #d97706;
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.35);
+}
+
+#courseButtons > button.ongoing-course:hover {
+  background-color: #b45309;
+}
+
 .back-btn {
   position: absolute;
   top: 20px;
