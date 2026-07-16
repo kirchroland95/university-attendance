@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alege Materia</title>
+  <link rel="stylesheet" href="../assets/css/style.css?v=2">
+  <script src="../assets/js/config.js"></script>
+</head>
+
+<body>
+  <h1>ALEGE MATERIA</h1>
+  <div id="courseButtons"></div>
+
+  <script>
+    function parseTimeOnDate(baseDate, timeValue) {
+      if (!timeValue) return null;
+
+      const parts = String(timeValue).split(":").map(Number);
+      const hours = parts[0];
+      const minutes = parts[1] || 0;
+      const seconds = parts[2] || 0;
+
+      if (!Number.isFinite(hours) || !Number.isFinite(minutes) || !Number.isFinite(seconds)) {
+        return null;
+      }
+
+      const result = new Date(baseDate);
+      result.setHours(hours, minutes, seconds, 0);
+      return result;
+    }
+
+    function isClassOngoing(schedule) {
+      const now = new Date();
+
+      if (!schedule || typeof schedule !== 'object') return false;
+
+      const day = Number(schedule.day);
+      const start = parseTimeOnDate(now, schedule.start);
+
+      if (!Number.isInteger(day) || !start) return false;
+      if (now.getDay() !== day) return false;
+
+      const end = new Date(start.getTime() + DURATION * 60 * 60 * 1000);
+      return now >= start && now <= end;
+    }
+
+    function isCourseOngoing(course) {
+      return (
+        isClassOngoing(course.courseSchedule) ||
+        isClassOngoing(course.labSchedule)
+      );
+    }
+
+    // Dynamically generate course buttons from config
+    const container = document.getElementById('courseButtons');
+    Object.values(COURSES).forEach(course => {
+      const button = document.createElement('button');
+      button.textContent = course.name;
+      if (isCourseOngoing(course)) {
+        button.classList.add('ongoing-course');
+      }
+      button.onclick = () => location.href = `materie.html?course=${course.id}`;
+      container.appendChild(button);
+    });
+  </script>
+</body>
+
+</html>

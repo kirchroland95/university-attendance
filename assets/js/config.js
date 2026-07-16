@@ -4,7 +4,9 @@ const COURSES = {
     id: 1,
     name: "COURSE NAME 1",
     shortName: "ACRONYM1",
-    scriptUrl: "https://script.google.com/macros/s/YOUR_SCRIPT_URL_1/exec",
+    courseSchedule: { day: 1, start: "08:00" }, // optional
+    labSchedule: { day: 4, start: "12:15" },    // optional
+    scriptUrl: "https://script.google.com/macros/s/AKfycbyqd4q1WmwgE7nBcFjwXdfWvMg1SDB_HzuDrT1iz7ru722kYuZo9m-tli-3sWnaA-wDhA/exec",
   },
   2: {
     id: 2,
@@ -22,7 +24,15 @@ const CAMPUS = {
 };
 
 // Feature toggles
-const ENABLE_AUTOCOMPLETE = true; // Set to false to disable name autocomplete
+
+// Toggle name autocomplete
+const ENABLE_AUTOCOMPLETE = true; 
+
+// Toggle check for existing entry in STUDENTS when autocomplete is enabled
+const ENABLE_NAME_ENFORCEMENT = true; 
+
+// Duration of a class in hours
+const DURATION = 2;
 
 const STUDENTS = [
   "STUDENT NAME 1",

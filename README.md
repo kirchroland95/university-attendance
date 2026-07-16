@@ -17,7 +17,7 @@ When students submit their attendance, it is recorded in the Google Sheet:
 
 ## Features
 
-- Config-driven homepage that lists all courses from `config.js` (add new courses without changing HTML).  
+- Config-driven homepage that lists all courses from `assets/js/config.js` (add new courses without changing HTML).  
 - For each course, choose CURS/LAB and either mark attendance or view attendance in a table.  
 - One Apps Script URL per course; backend distinguishes CURS/LAB via `type=course|lab`.  
 - Geolocation-based check-in with short best-fix sampling and accuracy-aware radius (optional, configurable).  
@@ -34,7 +34,7 @@ When students submit their attendance, it is recorded in the Google Sheet:
 
 2. **Create a Google Apps Script**  
    - Go to **Extensions → Apps Script** in your spreadsheet.  
-   - Copy the `Code.gs` script (doPost) into the script editor.  
+   - Copy the `apps-script/Code.gs` script (doPost) into the script editor.  
 
 3. **Deploy the Web App**  
    - Click **Deploy → New Deployment → Web App**.  
@@ -42,14 +42,32 @@ When students submit their attendance, it is recorded in the Google Sheet:
    - Copy the Web App URL.
 
 4. **Configure the frontend**  
-   - Open `config.js` and set `scriptUrl` for each course to your Web App URL (one URL per course handles both CURS/LAB).  
-   - Update the course `name` (and optional `shortName`) in `config.js` as you want it displayed.  
-   - Optional: adjust geolocation by setting `CAMPUS.lat`, `CAMPUS.lon` and `radiusMeters` in `config.js`.  
+   - Open `assets/js/config.js` and set `scriptUrl` for each course to your Web App URL (one URL per course handles both CURS/LAB).  
+   - Update the course `name` (and optional `shortName`) in `assets/js/config.js` as you want it displayed.  
+   - Optional: adjust geolocation by setting `CAMPUS.lat`, `CAMPUS.lon` and `radiusMeters` in `assets/js/config.js`.  
    - Optional: enable autocomplete by setting `ENABLE_AUTOCOMPLETE` to true and adding a list of names in the `STUDENTS` array
+   - Optional: add weekly class schedules with `courseSchedule` / `labSchedule` in the form `{ day: 1, start: "08:00" }`.
+   - If a course has no `courseSchedule` or `labSchedule`, the homepage skips it and never highlights it.
+   - `DURATION` controls how many hours the highlight stays active after the start time.
+
+Example:
+
+```javascript
+const COURSES = {
+   1: {
+      id: 1,
+      name: "OOP",
+      shortName: "OOP",
+      courseSchedule: { day: 1, start: "08:00" }, // Monday 08:00-10:00 when DURATION = 2
+      labSchedule: { day: 3, start: "14:00" },    // Wednesday 14:00-16:00 when DURATION = 2
+      scriptUrl: "https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec"
+   }
+};
+```
 
 5. **Host the frontend**  
    - You can use **GitHub Pages** or any static web host.  
-   - Open `index.html` to start using the attendance form.
+   - Open `pages/index.html` to start using the attendance form.
 
 ---
 ## Summary Table (dynamic)
@@ -112,7 +130,7 @@ This will merge the two tables into one
 
 The steps to add a new course are very simple:
 
-### 1. Edit `config.js`
+### 1. Edit `assets/js/config.js`
 
 Add a new object to the `COURSES` collection with the following structure:
 
@@ -161,16 +179,26 @@ Add a new object to the `COURSES` collection with the following structure:
 
 ####  2025/10/22
 - Reorganized project into fully modular configuration-based architecture
-- Created central `config.js` file for managing all course information in one place
+- Created central `assets/js/config.js` file for managing all course information in one place
 - Implemented Course/Lab separation - each course now supports both course and lab attendance tracking
 - Added segmented button groups for Course and Lab selection with visual differentiation (green/blue colors)
 - Updated Google Apps Script to handle `type` parameter for routing between course and lab sheets
-- Simplified deployment - adding new courses now only requires editing `config.js`
+- Simplified deployment - adding new courses now only requires editing `assets/js/config.js`
 
 ####  2026/02/01
 - Added student name autocomplete functionality with searchable dropdown suggestions
-- Implemented name matching from STUDENTS list in config.js to reduce attendance data mismatches
-- Added ENABLE_AUTOCOMPLETE toggle in config.js for easy enable/disable without app changes
+- Implemented name matching from STUDENTS list in assets/js/config.js to reduce attendance data mismatches
+- Added ENABLE_AUTOCOMPLETE toggle in assets/js/config.js for easy enable/disable without app changes
 - Student names are alphabetically sorted and filtered in real-time as users type
 - Implemented vertical date headers on prezente.html to maximize screen space for attendance checkmarks
 - Date headers now display vertically (rotated 90 degrees) instead of horizontally to reduce horizontal scrolling
+####  2026/07/15
+- Changed margins for better page layout
+- Added ENABLE_NAME_ENFORCEMENT toggle in assets/js/config.js for autocomplete name enforcement
+- Restructured project for better overview. HTML, CSS and JavaScript files are now in their own folders
+- Updated README with new file paths
+####  2026/07/16
+- Added weekly day/time schedule support for homepage highlighting
+- Homepage now highlights a course only when the current weekday and start time match the configured schedule
+- Courses without `courseSchedule` or `labSchedule` are ignored by the highlighter
+- Documented the `day` + `start` schedule format in the setup instructions
