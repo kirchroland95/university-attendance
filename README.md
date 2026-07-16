@@ -46,6 +46,24 @@ When students submit their attendance, it is recorded in the Google Sheet:
    - Update the course `name` (and optional `shortName`) in `assets/js/config.js` as you want it displayed.  
    - Optional: adjust geolocation by setting `CAMPUS.lat`, `CAMPUS.lon` and `radiusMeters` in `assets/js/config.js`.  
    - Optional: enable autocomplete by setting `ENABLE_AUTOCOMPLETE` to true and adding a list of names in the `STUDENTS` array
+   - Optional: add weekly class schedules with `courseSchedule` / `labSchedule` in the form `{ day: 1, start: "08:00" }`.
+   - If a course has no `courseSchedule` or `labSchedule`, the homepage skips it and never highlights it.
+   - `DURATION` controls how many hours the highlight stays active after the start time.
+
+Example:
+
+```javascript
+const COURSES = {
+   1: {
+      id: 1,
+      name: "OOP",
+      shortName: "OOP",
+      courseSchedule: { day: 1, start: "08:00" }, // Monday 08:00-10:00 when DURATION = 2
+      labSchedule: { day: 3, start: "14:00" },    // Wednesday 14:00-16:00 when DURATION = 2
+      scriptUrl: "https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec"
+   }
+};
+```
 
 5. **Host the frontend**  
    - You can use **GitHub Pages** or any static web host.  
@@ -179,3 +197,8 @@ Add a new object to the `COURSES` collection with the following structure:
 - Added ENABLE_NAME_ENFORCEMENT toggle in assets/js/config.js for autocomplete name enforcement
 - Restructured project for better overview. HTML, CSS and JavaScript files are now in their own folders
 - Updated README with new file paths
+####  2026/07/16
+- Added weekly day/time schedule support for homepage highlighting
+- Homepage now highlights a course only when the current weekday and start time match the configured schedule
+- Courses without `courseSchedule` or `labSchedule` are ignored by the highlighter
+- Documented the `day` + `start` schedule format in the setup instructions
