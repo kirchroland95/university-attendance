@@ -47,6 +47,7 @@ When students submit their attendance, it is recorded in the Google Sheet:
    - Optional: adjust geolocation by setting `CAMPUS.lat`, `CAMPUS.lon` and `radiusMeters` in `assets/js/config.js`.  
    - Optional: enable autocomplete by setting `ENABLE_AUTOCOMPLETE` to true and adding a list of names in the `STUDENTS` array
    - Optional: add weekly class schedules with `courseSchedule` / `labSchedule` in the form `{ day: 1, start: "08:00" }`.
+   - `day` follows JavaScript weekday numbering: `1` = Monday, `3` = Wednesday, `0` or `7` = Sunday.
    - If a course has no `courseSchedule` or `labSchedule`, the homepage skips it and never highlights it.
    - `DURATION` controls how many hours the highlight stays active after the start time.
 

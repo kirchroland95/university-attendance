@@ -37,10 +37,11 @@
       if (!schedule || typeof schedule !== 'object') return false;
 
       const day = Number(schedule.day);
+      const normalizedDay = day === 7 ? 0 : day;
       const start = parseTimeOnDate(now, schedule.start);
 
       if (!Number.isInteger(day) || !start) return false;
-      if (now.getDay() !== day) return false;
+      if (now.getDay() !== normalizedDay) return false;
 
       const end = new Date(start.getTime() + DURATION * 60 * 60 * 1000);
       return now >= start && now <= end;
